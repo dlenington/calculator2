@@ -5,7 +5,7 @@ import ListItem from "@material-ui/core/ListItem";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import ListItemText from "@material-ui/core/ListItemText";
-import { Divider } from "@material-ui/core";
+import { Divider, makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 
 import { createCalc } from "./graphql/mutations";
@@ -13,19 +13,40 @@ import { listCalcs } from "./graphql/queries";
 import { onCreateCalc } from "./graphql/subscriptions";
 
 import Calculator from "./components/calculator";
-import CalculationList from "./components/calculationList";
 import NavBar from "./components/navBar";
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    paddingTop: 70,
+    height: "100vh",
+  },
+  gridContainer: {
+    flexGrow: 1,
+    backgroundColor: "#eeeeee",
+    height: "100%",
+  },
+  listContainer: {
+    margin: 20,
+    padding: 10,
+    flex: 1,
+  },
+  calcContainer: {
+    padding: 20,
+    margin: 20,
+    width: "280px",
+  },
+}));
 
 function App() {
   const [currentCalculation, setCurrentCalculation] = useState([]);
   const [calculations, setCalculations] = useState([]);
+  const classes = useStyles();
 
   useEffect(() => {
     fetchCalculations();
 
     const subscription = API.graphql(graphqlOperation(onCreateCalc)).subscribe({
       next: (calculationData) => {
-        console.log(calculations);
         setCalculations((prevState) => [
           calculationData.value.data.onCreateCalc,
           ...prevState.slice(0, 9),
@@ -60,7 +81,6 @@ function App() {
         graphqlOperation(listCalcs, input)
       );
       const calculations = calculationData.data.listCalcs.items;
-      console.log(calculations);
       setCalculations(calculations);
     } catch (err) {
       console.log("error fetching calculation", err);
@@ -70,21 +90,10 @@ function App() {
   return (
     <div>
       <NavBar />
-      <div
-        style={{
-          // width: "100%",
-          paddingTop: 70,
-          height: "100vh",
-        }}
-      >
-        <Grid
-          container
-          style={{ flexGrow: 1, backgroundColor: "#eeeeee", height: "100%" }}
-          spacing={2}
-        >
+      <div className={classes.container}>
+        <Grid container className={classes.gridContainer} spacing={2}>
           <Grid item xs={6}>
-            {/* <CalculationList calculations={calculations} /> */}
-            <Paper style={{ margin: 20, padding: 10, flex: 1 }} elevation="3">
+            <Paper className={classes.listContainer} elevation="3">
               <Typography variant="h6">Recent</Typography>
               <List>
                 {calculations.map((calculation) => (
@@ -99,10 +108,7 @@ function App() {
             </Paper>
           </Grid>
           <Grid item xs={6}>
-            <Paper
-              style={{ padding: 20, margin: 20, width: "280px" }}
-              elevation="2"
-            >
+            <Paper className={classes.calcContainer} elevation="2">
               <Calculator
                 onAddCalculation={addCalculation}
                 setCurrentCalculation={setCurrentCalculation}

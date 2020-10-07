@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Calculator(props) {
-  //   const [currentCalculation, setCurrentCalculation] = useState([]);
   const [display, setDisplay] = useState("");
   const [previousKey, setPreviousKey] = useState("");
   const [firstValue, setFirstValue] = useState("");
@@ -25,7 +24,6 @@ function Calculator(props) {
 
   useEffect(() => {
     if (currentCalculation.includes("=")) {
-      console.log("submit called");
       submit();
     }
   }, [currentCalculation]);
@@ -106,7 +104,6 @@ function Calculator(props) {
           setOperator(action);
           return;
         }
-        console.log("entered");
         let calcValue = calculate(firstValue, operator, display);
         setDisplay(calcValue);
         setFirstValue(calcValue);
@@ -117,7 +114,7 @@ function Calculator(props) {
     }
 
     if (action === "decimal") {
-      if (!display.includes(".")) setDisplay(display + ".");
+      if (!display.toString().includes(".")) setDisplay(display + ".");
       else if (previousKey === "operator") setDisplay("0.");
 
       setPreviousKey("decimal");
@@ -133,6 +130,9 @@ function Calculator(props) {
     if (action === "calculate") {
       if (firstValue) {
         if (previousKey === "calculate") {
+          setFirstValue(display);
+        } else if (previousKey === "operator") {
+          addToCurrentCalculation(null, "=", display);
           setFirstValue(display);
         } else {
           let result = calculate(firstValue, operator, display);
