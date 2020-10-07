@@ -1,32 +1,35 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateCalculation = /* GraphQL */ `
-  subscription OnCreateCalculation {
-    onCreateCalculation {
+export const onCreateCalc = /* GraphQL */ `
+  subscription OnCreateCalc {
+    onCreateCalc {
       id
       value
       createdAt
+      session
       updatedAt
     }
   }
 `;
-export const onUpdateCalculation = /* GraphQL */ `
-  subscription OnUpdateCalculation {
-    onUpdateCalculation {
+export const onUpdateCalc = /* GraphQL */ `
+  subscription OnUpdateCalc {
+    onUpdateCalc {
       id
       value
       createdAt
+      session
       updatedAt
     }
   }
 `;
-export const onDeleteCalculation = /* GraphQL */ `
-  subscription OnDeleteCalculation {
-    onDeleteCalculation {
+export const onDeleteCalc = /* GraphQL */ `
+  subscription OnDeleteCalc {
+    onDeleteCalc {
       id
       value
       createdAt
+      session
       updatedAt
     }
   }

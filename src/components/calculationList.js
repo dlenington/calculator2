@@ -12,9 +12,12 @@ function CalculationList(props) {
   return (
     <List>
       {calculations.map((calculation) => (
-        <ListItem>
-          <ListItemText primary={calculation.value} />
-        </ListItem>
+        <div>
+          <ListItem>
+            <ListItemText primary={calculation.value} />
+          </ListItem>
+          <Divider />
+        </div>
       ))}
     </List>
   );

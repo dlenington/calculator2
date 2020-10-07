@@ -72,6 +72,8 @@ function Calculator(props) {
     if (currentCalculation.length === 0) return;
     try {
       await onAddCalculation();
+
+      setCurrentCalculation((prevState) => [prevState[prevState.length - 1]]);
     } catch (err) {
       console.log("error submitting calculation", err);
     }

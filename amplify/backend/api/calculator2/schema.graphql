@@ -1,4 +1,6 @@
-type Calculation @model {
+type Calc @model @key(fields: ["session", "createdAt"]) {
   id: ID!
   value: String
+  createdAt: AWSDateTime!
+  session: String!
 }
