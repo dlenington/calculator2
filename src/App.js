@@ -28,7 +28,7 @@ function App() {
         console.log(calculations);
         setCalculations((prevState) => [
           calculationData.value.data.onCreateCalc,
-          ...prevState,
+          ...prevState.slice(0, 9),
         ]);
       },
     });
@@ -73,6 +73,7 @@ function App() {
       <div
         style={{
           // width: "100%",
+          paddingTop: 70,
           height: "100vh",
         }}
       >
@@ -81,7 +82,7 @@ function App() {
           style={{ flexGrow: 1, backgroundColor: "#eeeeee", height: "100%" }}
           spacing={2}
         >
-          <Grid item justify="center">
+          <Grid item xs={6}>
             {/* <CalculationList calculations={calculations} /> */}
             <Paper style={{ margin: 20, padding: 10, flex: 1 }} elevation="3">
               <Typography variant="h6">Recent</Typography>
@@ -97,8 +98,11 @@ function App() {
               </List>
             </Paper>
           </Grid>
-          <Grid item>
-            <Paper style={{ padding: 20, margin: 20 }} elevation="2">
+          <Grid item xs={6}>
+            <Paper
+              style={{ padding: 20, margin: 20, width: "280px" }}
+              elevation="2"
+            >
               <Calculator
                 onAddCalculation={addCalculation}
                 setCurrentCalculation={setCurrentCalculation}
