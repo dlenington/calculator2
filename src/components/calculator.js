@@ -135,6 +135,7 @@ function Calculator(props) {
       setDisplay("");
       setPreviousKey("clear");
       setCurrentCalculation([]);
+      setBypass(false);
     }
 
     if (action === "calculate") {
