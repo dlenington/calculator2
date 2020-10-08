@@ -9,8 +9,10 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: "5px 5px 5px 0px",
   },
-  displayField: {
-    margin: "0px 0px 10px",
+  display: {
+    height: 50,
+    backgroundColor: "#eeeeee",
+    overflow: "hidden",
   },
 }));
 
@@ -19,6 +21,7 @@ function Calculator(props) {
   const [previousKey, setPreviousKey] = useState("");
   const [firstValue, setFirstValue] = useState("");
   const [operator, setOperator] = useState("");
+  const [bypass, setBypass] = useState(false);
   const { onAddCalculation, setCurrentCalculation, currentCalculation } = props;
   const classes = useStyles();
 
@@ -85,10 +88,17 @@ function Calculator(props) {
 
     if (!action) {
       setDisplay(
-        displayedNum === "0" || previousKey === "operator"
+        displayedNum === "0" ||
+          previousKey === "calculate" ||
+          previousKey === "operator"
           ? keyContent
           : display + keyContent
       );
+      if (previousKey === "calculate") {
+        setFirstValue(keyContent);
+        setCurrentCalculation([]);
+        setBypass(true);
+      }
       setPreviousKey("number");
     }
 
@@ -99,9 +109,8 @@ function Calculator(props) {
       action === "divide"
     ) {
       if (firstValue && operator && previousKey !== "operator") {
-        if (previousKey === "calculate") {
+        if (previousKey === "calculate" || bypass) {
           setPreviousKey("operator");
-          setOperator(action);
           return;
         }
         let calcValue = calculate(firstValue, operator, display);
@@ -114,8 +123,9 @@ function Calculator(props) {
     }
 
     if (action === "decimal") {
-      if (!display.toString().includes(".")) setDisplay(display + ".");
-      else if (previousKey === "operator") setDisplay("0.");
+      if (!display.toString().includes(".")) {
+        setDisplay(display + ".");
+      } else if (previousKey === "operator") setDisplay("0.");
 
       setPreviousKey("decimal");
     }
@@ -148,10 +158,7 @@ function Calculator(props) {
 
   return (
     <Fragment>
-      <Typography
-        style={{ height: 50, backgroundColor: "#eeeeee" }}
-        variant="h3"
-      >
+      <Typography className={classes.display} variant="h3">
         {display}
       </Typography>
 
